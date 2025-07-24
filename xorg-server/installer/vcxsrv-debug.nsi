@@ -19,9 +19,9 @@
 !include "FileFunc.nsh"
 
 !define NAME "VcXsrv"
-!define VERSION "1.20.6.0"
+!define VERSION "21.1.16.1"
 !define UNINSTALL_PUBLISHER "${NAME}"
-!define UNINSTALL_URL "https://github.com/minhtk1/vcxsrv"
+!define UNINSTALL_URL "https://github.com/marchaesen/vcxsrv"
 
 ; The name of the installer
 Name "${NAME}"
@@ -155,7 +155,7 @@ Section "VcXsrv debug exe and dlls (required)"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\VcXsrv" "DisplayIcon" "$INSTDIR\vcxsrv.exe"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\VcXsrv" "DisplayName" "${NAME}"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\VcXsrv" "DisplayVersion" "${VERSION}"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\VcXsrv" "Publisher" "https://github.com/minhtk1"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\VcXsrv" "Publisher" "https://github.com/marchaesen"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\VcXsrv" "UninstallString" '"$INSTDIR\uninstall.exe"'
   WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\VcXsrv" "NoModify" 1
   WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\VcXsrv" "NoRepair" 1
