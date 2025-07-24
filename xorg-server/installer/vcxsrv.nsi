@@ -1,6 +1,6 @@
 /*  This file is part of vcxsrv.
  *
- *  Copyright (C) 2014 marha@users.sourceforge.net
+ *  Copyright (C) 2024 https://github.com/marchaesen
  *
  *  vcxsrv is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -16,12 +16,12 @@
  *  along with vcxsrv.  If not, see <http://www.gnu.org/licenses/>.
 */
 ;--------------------------------
- !include "FileFunc.nsh"
+!include "FileFunc.nsh"
 
 !define NAME "VcXsrv"
 !define VERSION "1.20.6.0"
 !define UNINSTALL_PUBLISHER "${NAME}"
-!define UNINSTALL_URL "https://github.com/ArcticaProject/vcxsrv"
+!define UNINSTALL_URL "https://github.com/minhtk1/vcxsrv"
 
 ; The name of the installer
 Name "${NAME}"
@@ -31,6 +31,10 @@ OutFile "vcxsrv.${VERSION}.installer.exe"
 
 ; The default installation directory
 InstallDir $PROGRAMFILES32\VcXsrv
+
+Function .onInit
+StrCpy $InstDir $PROGRAMFILES32\VcXsrv
+FunctionEnd
 
 SetCompressor /SOLID lzma
 
@@ -133,7 +137,8 @@ Section "VcXsrv (required)"
   File "..\..\libX11\obj\release\libX11.dll"
   File "..\..\libXext\src\obj\release\libXext.dll"
   File "..\..\libXmu\src\obj\release\libXmu.dll"
-  File "..\..\openssl\release32\libcrypto-1_1.dll"
+  File "..\..\openssl\release32\libcrypto-3.dll"
+  File "..\..\freetype\objs\Win32\Release\freetype.dll"
   File "vcruntime140.dll"
   File "msvcp140.dll"
   SetOutPath $INSTDIR\xkbdata
@@ -150,7 +155,7 @@ Section "VcXsrv (required)"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\VcXsrv" "DisplayIcon" "$INSTDIR\vcxsrv.exe"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\VcXsrv" "DisplayName" "${NAME}"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\VcXsrv" "DisplayVersion" "${VERSION}"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\VcXsrv" "Publisher" "marha@users.sourceforge.net"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\VcXsrv" "Publisher" "https://github.com/minhtk1"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\VcXsrv" "UninstallString" '"$INSTDIR\uninstall.exe"'
   WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\VcXsrv" "NoModify" 1
   WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\VcXsrv" "NoRepair" 1
@@ -195,7 +200,7 @@ Section "Fonts"
   SetShellVarContext All
 
   SetOutPath $INSTDIR\fonts
-  CreateDirectory "$SMPROGRAMS\VcXsrv"
+  CreateDirectory "$INSTDIR\fonts"
   File /r "..\fonts\*.*"
 
 SectionEnd
@@ -206,11 +211,10 @@ Section "Start Menu Shortcuts"
 
   SetShellVarContext All
 
-  SetOutPath $INSTDIR
+  SetOutPath "$SMPROGRAMS\VcXsrv"
   CreateDirectory "$SMPROGRAMS\VcXsrv"
   CreateShortCut "$SMPROGRAMS\VcXsrv\Uninstall VcXsrv.lnk" "$INSTDIR\uninstall.exe" "" "$INSTDIR\uninstall.exe" 0
   CreateShortCut "$SMPROGRAMS\VcXsrv\XLaunch.lnk" "$INSTDIR\xlaunch.exe" "" "$INSTDIR\xlaunch.exe" 0
-
 SectionEnd
 
 ; Optional section (can be disabled by the user)
@@ -219,7 +223,7 @@ Section "Desktop Shortcuts"
 
   SetShellVarContext All
 
-  SetOutPath $INSTDIR
+  SetOutPath $DESKTOP
   CreateShortCut "$DESKTOP\XLaunch.lnk" "$INSTDIR\xlaunch.exe" "" "$INSTDIR\xlaunch.exe" 0
 
 SectionEnd
