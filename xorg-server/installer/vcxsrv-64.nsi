@@ -1,6 +1,6 @@
 /*  This file is part of vcxsrv.
  *
- *  Copyright (C) 2024 https://github.com/marchaesen
+ *  Copyright (C) 2014 marha@users.sourceforge.net
  *
  *  vcxsrv is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -16,12 +16,12 @@
  *  along with vcxsrv.  If not, see <http://www.gnu.org/licenses/>.
 */
 ;--------------------------------
-!include "FileFunc.nsh"
+ !include "FileFunc.nsh"
 
 !define NAME "VcXsrv"
-!define VERSION "21.1.16.1"
+!define VERSION "1.20.6.0"
 !define UNINSTALL_PUBLISHER "${NAME}"
-!define UNINSTALL_URL "https://github.com/marchaesen/vcxsrv"
+!define UNINSTALL_URL "https://github.com/ArcticaProject/vcxsrv"
 
 ; The name of the installer
 Name "${NAME}"
@@ -135,10 +135,8 @@ Section "VcXsrv (required)"
   File "..\..\libX11\obj64\release\libX11.dll"
   File "..\..\libXext\src\obj64\release\libXext.dll"
   File "..\..\libXmu\src\obj64\release\libXmu.dll"
-  File "..\..\openssl\release64\libcrypto-3-x64.dll"
-  File "..\..\freetype\objs\x64\Release\freetype.dll"
+  File "..\..\openssl\release64\libcrypto-1_1-x64.dll"
   File "vcruntime140.dll"
-  File "vcruntime140_1.dll"
   File "msvcp140.dll"
   SetOutPath $INSTDIR\xkbdata
   File /r "..\xkbdata\*.*"
@@ -154,7 +152,7 @@ Section "VcXsrv (required)"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\VcXsrv" "DisplayIcon" "$INSTDIR\vcxsrv.exe"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\VcXsrv" "DisplayName" "${NAME}"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\VcXsrv" "DisplayVersion" "${VERSION}"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\VcXsrv" "Publisher" "https://github.com/marchaesen"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\VcXsrv" "Publisher" "marha@users.sourceforge.net"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\VcXsrv" "UninstallString" '"$INSTDIR\uninstall.exe"'
   WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\VcXsrv" "NoModify" 1
   WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\VcXsrv" "NoRepair" 1
@@ -201,7 +199,7 @@ Section "Fonts"
   SetRegView 64
 
   SetOutPath $INSTDIR\fonts
-  CreateDirectory "$INSTDIR\fonts"
+  CreateDirectory "$SMPROGRAMS\VcXsrv"
   File /r "..\fonts\*.*"
 
 SectionEnd
@@ -214,10 +212,11 @@ Section "Start Menu Shortcuts"
 
   SetRegView 64
 
-  SetOutPath "$SMPROGRAMS\VcXsrv"
+  SetOutPath $INSTDIR
   CreateDirectory "$SMPROGRAMS\VcXsrv"
   CreateShortCut "$SMPROGRAMS\VcXsrv\Uninstall VcXsrv.lnk" "$INSTDIR\uninstall.exe" "" "$INSTDIR\uninstall.exe" 0
   CreateShortCut "$SMPROGRAMS\VcXsrv\XLaunch.lnk" "$INSTDIR\xlaunch.exe" "" "$INSTDIR\xlaunch.exe" 0
+
 SectionEnd
 
 ; Optional section (can be disabled by the user)
@@ -228,7 +227,7 @@ Section "Desktop Shortcuts"
 
   SetRegView 64
 
-  SetOutPath $DESKTOP
+  SetOutPath $INSTDIR
   CreateShortCut "$DESKTOP\XLaunch.lnk" "$INSTDIR\xlaunch.exe" "" "$INSTDIR\xlaunch.exe" 0
 
 SectionEnd
@@ -285,10 +284,8 @@ Section "Uninstall"
   Delete "$INSTDIR\zlib1.dll"
   Delete "$INSTDIR\iconv.dll"
   Delete "$INSTDIR\vcruntime140.dll"
-  Delete "$INSTDIR\vcruntime140_1.dll"
   Delete "$INSTDIR\msvcp140.dll"
   Delete "$INSTDIR\vcruntime140d.dll"
-  Delete "$INSTDIR\vcruntime140_1d.dll"
   Delete "$INSTDIR\msvcp140d.dll"
   Delete "$INSTDIR\libgcc_s_sjlj-1.dll"
   Delete "$INSTDIR\libcrypto-1_1-x64.dll"
