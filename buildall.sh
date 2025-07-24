@@ -107,59 +107,37 @@ export PATH=$ORIPATH
 
 
 if [[ "$IS64" == "1" ]]; then
-	if [[ "$BUILDDEPS" == "1" ]]; then
+	MSBuild.exe tools/mhmake/mhmakevc10.sln /t:Build /p:Configuration=Release /p:Platform=x64
+	check-error 'Error compiling mhmake for release'
 
-		if [[ "$BUILDRELEASE" == "1" ]]; then
-			MSBuild.exe tools/mhmake/mhmakevc10.sln -t:Build -p:Configuration=Release -p:Platform=x64 -m:$2
-		wait
-			check-error 'Error compiling mhmake for release'
-		fi
+	MSBuild.exe tools/mhmake/mhmakevc10.sln /t:Build /p:Configuration=Debug /p:Platform=x64
+	check-error 'Error compiling mhmake for debug'
+	export MHMAKECONF=`cygpath -da .`
 
-		if [[ "$BUILDDEBUG" == "1" ]]; then
-			MSBuild.exe tools/mhmake/mhmakevc10.sln -t:Build -p:Configuration=Debug -p:Platform=x64 -m:$2                  
-		wait
-			check-error 'Error compiling mhmake for debug'
-		fi
-	fi
+	tools/mhmake/Release64/mhmake -P$2 -C xorg-server MAKESERVER=1 DEBUG=1
+	check-error 'Error compiling vcxsrv for debug'
 
-	if [[ "$BUILDRELEASE" == "1" ]]; then
-		tools/mhmake/Release64/mhmake.exe -P$2 -C xorg-server MAKESERVER=1
-		check-error 'Error compiling vcxsrv for release'
-	fi
-
-	if [[ "$BUILDDEBUG" == "1" ]]; then
-		tools/mhmake/Debug64/mhmake.exe -P$2 -C xorg-server MAKESERVER=1 DEBUG=1
-		check-error 'Error compiling vcxsrv for debug'
-	fi
+	tools/mhmake/Release64/mhmake.exe -P$2 -C xorg-server MAKESERVER=1
+	check-error 'Error compiling vcxsrv for release'
 
 	cd xorg-server/installer
-	./packageall.sh nox86
+	./packageall.bat nox86
 else
-	if [[ "$BUILDDEPS" == "1" ]]; then
+	MSBuild.exe tools/mhmake/mhmakevc10.sln /t:Build /p:Configuration=Release /p:Platform=Win32
+	check-error 'Error compiling mhmake for release'
 
-		if [[ "$BUILDRELEASE" == "1" ]]; then
-			MSBuild.exe tools/mhmake/mhmakevc10.sln -t:Build -p:Configuration=Release -p:Platform=Win32 -m:$2
-		wait
-			check-error 'Error compiling mhmake for release'
-		fi
-		if [[ "$BUILDDEBUG" == "1" ]]; then
-			MSBuild.exe tools/mhmake/mhmakevc10.sln -t:Build -p:Configuration=Debug -p:Platform=Win32 -m:$2
-		wait
-			check-error 'Error compiling mhmake for debug'
-		fi
+	MSBuild.exe tools/mhmake/mhmakevc10.sln /t:Build /p:Configuration=Debug /p:Platform=Win32
+	check-error 'Error compiling mhmake for debug'
+	export MHMAKECONF=`cygpath -da .`
 
-		if [[ "$BUILDRELEASE" == "1" ]]; then
-			tools/mhmake/Release/mhmake.exe -P$2 -C xorg-server MAKESERVER=1
-			check-error 'Error compiling vcxsrv for release'
-		fi
-		if [[ "$BUILDDEBUG" == "1" ]]; then
-			tools/mhmake/Release/mhmake.exe -P$2 -C xorg-server MAKESERVER=1 DEBUG=1
-			check-error 'Error compiling vcxsrv for debug'
-		fi
+	tools/mhmake/Release/mhmake -P$2 -C xorg-server MAKESERVER=1 DEBUG=1
+	check-error 'Error compiling vcxsrv for debug'
 
-		cd xorg-server/installer
-		./packageall.sh nox64
-	fi
+	tools/mhmake/Release/mhmake.exe -P$2 -C xorg-server MAKESERVER=1
+	check-error 'Error compiling vcxsrv for release'
+
+	cd xorg-server/installer
+	./packageall.bat nox64
 fi
 
 
