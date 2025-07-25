@@ -133,7 +133,7 @@ if [[ "$IS64" == "1" ]]; then
 	fi
 
 	cd xorg-server/installer
-	./packageall.bat nox86
+	# ./packageall.bat nox86
 else
 	if [[ "$BUILDDEPS" == "1" ]]; then
 
