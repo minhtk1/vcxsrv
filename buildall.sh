@@ -73,24 +73,24 @@ trap 'error_trap' ERR
 if [[ "$BUILDDEPS" == "1" ]] ; then
 	if [[ "$IS64" == "1" ]]; then
 		if [[ "$BUILDRELEASE" == "1" ]] ; then
-			echo MSBuild.exe freetype/freetypevc10.sln -t:Build -p:Configuration="Release Multithreaded" -p:Platform=x64 -m:$2
-			MSBuild.exe freetype/freetypevc10.sln -t:Build -p:Configuration="Release Multithreaded" -p:Platform=x64 -m:$2
+			echo MSBuild.exe freetype/freetypevc10.sln -t:Build -p:Configuration="Release Multithreaded" -p:Platform=x64
+			MSBuild.exe freetype/freetypevc10.sln -t:Build -p:Configuration="Release Multithreaded" -p:Platform=x64
 			check-error 'Error compiling freetype'
 		fi
 		if [[ "$BUILDDEBUG" == "1" ]] ; then
-			echo MSBuild.exe freetype/freetypevc10.sln -t:Build -p:Configuration="Debug Multithreaded" -p:Platform=x64 -m:$2
-			MSBuild.exe freetype/freetypevc10.sln -t:Build -p:Configuration="Debug Multithreaded" -p:Platform=x64 -m:$2
+			echo MSBuild.exe freetype/freetypevc10.sln -t:Build -p:Configuration="Debug Multithreaded" -p:Platform=x64
+			MSBuild.exe freetype/freetypevc10.sln -t:Build -p:Configuration="Debug Multithreaded" -p:Platform=x64
 			check-error 'Error compiling freetype'
 		fi
 	else
 		if [[ "$BUILDRELEASE" == "1" ]] ; then
-			echo MSBuild.exe freetype/freetypevc10.sln -t:Build -p:Configuration="Release Multithreaded" -p:Platform=Win32 -m:$2
-			MSBuild.exe freetype/freetypevc10.sln -t:Build -p:Configuration="Release Multithreaded" -p:Platform=Win32 -m:$2
+			echo MSBuild.exe freetype/freetypevc10.sln -t:Build -p:Configuration="Release Multithreaded" -p:Platform=Win32
+			MSBuild.exe freetype/freetypevc10.sln -t:Build -p:Configuration="Release Multithreaded" -p:Platform=Win32
 			check-error 'Error compiling freetype'
 		fi
 		if [[ "$BUILDDEBUG" == "1" ]] ; then
-			echo MSBuild.exe freetype/freetypevc10.sln -t:Build -p:Configuration="Debug Multithreaded" -p:Platform=Win32 -m:$2
-			MSBuild.exe freetype/freetypevc10.sln -t:Build -p:Configuration="Debug Multithreaded" -p:Platform=Win32 -m:$2
+			echo MSBuild.exe freetype/freetypevc10.sln -t:Build -p:Configuration="Debug Multithreaded" -p:Platform=Win32
+			MSBuild.exe freetype/freetypevc10.sln -t:Build -p:Configuration="Debug Multithreaded" -p:Platform=Win32
 			check-error 'Error compiling freetype'
 		fi
 	fi
@@ -144,12 +144,12 @@ fi # End of BUILDDEPS block
 if [[ "$IS64" == "1" ]]; then
 	if [[ "$BUILDDEPS" == "1" ]]; then
 		if [[ "$BUILDRELEASE" == "1" ]]; then
-			MSBuild.exe tools/mhmake/mhmakevc10.sln -t:Build -p:Configuration=Release -p:Platform=x64 -m:$2
+			MSBuild.exe tools/mhmake/mhmakevc10.sln -t:Build -p:Configuration=Release -p:Platform=x64
 			wait
 			check-error 'Error compiling mhmake for release'
 		fi
 		if [[ "$BUILDDEBUG" == "1" ]]; then
-			MSBuild.exe tools/mhmake/mhmakevc10.sln -t:Build -p:Configuration=Debug -p:Platform=x64 -m:$2
+			MSBuild.exe tools/mhmake/mhmakevc10.sln -t:Build -p:Configuration=Debug -p:Platform=x64
 			wait
 			check-error 'Error compiling mhmake for debug'
 		fi
@@ -169,12 +169,12 @@ if [[ "$IS64" == "1" ]]; then
 else # IS32
 	if [[ "$BUILDDEPS" == "1" ]]; then
 		if [[ "$BUILDRELEASE" == "1" ]]; then
-		MSBuild.exe tools/mhmake/mhmakevc10.sln -t:Build -p:Configuration=Release -p:Platform=Win32 -m:$2
+		MSBuild.exe tools/mhmake/mhmakevc10.sln -t:Build -p:Configuration=Release -p:Platform=Win32
 		wait
 		check-error 'Error compiling mhmake for release'
 		fi
 		if [[ "$BUILDDEBUG" == "1" ]]; then
-		MSBuild.exe tools/mhmake/mhmakevc10.sln -t:Build -p:Configuration=Debug -p:Platform=Win32 -m:$2
+		MSBuild.exe tools/mhmake/mhmakevc10.sln -t:Build -p:Configuration=Debug -p:Platform=Win32
 		wait
 		check-error 'Error compiling mhmake for debug'
 		fi
