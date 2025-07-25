@@ -45,4 +45,7 @@ libdix_la_SOURCES = 	\
 	touch.c		\
 	window.c
 
+initatoms.c:
+	bash ./generate-atoms BuiltInAtoms $(notdir $@)
+
 CSRCS = $(filter %.c,$(libdix_la_SOURCES)) $(filter %.c,$(libmain_la_SOURCES))
