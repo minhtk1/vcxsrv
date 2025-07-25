@@ -54,7 +54,22 @@ which perl.exe > /dev/null 2>&1
 check-error 'Please install strawberry perl portable edition into c:\perl'
 
 # echo script lines from now one
-set -v
+# set -v
+
+echo "[INFO] IS64=$IS64 BUILDRELEASE=$BUILDRELEASE BUILDDEBUG=$BUILDDEBUG BUILDDEPS=$BUILDDEPS THREADS=$2 TYPE=$3 PATH=$PATH PWD=$(pwd)"
+
+set -o errexit     # hoặc: set -e
+set -o errtrace    # để ERR được propagate vào cả các function/subshell
+
+error_trap() {
+  local code=$?
+  local line=${BASH_LINENO[0]}
+  echo "[ERROR] Exit code $code tại dòng $line (${BASH_SOURCE[1]})"
+  echo "[INFO] IS64=$IS64 BUILDRELEASE=$BUILDRELEASE BUILDDEBUG=$BUILDDEBUG BUILDDEPS=$BUILDDEPS THREADS=$2 TYPE=$3 PATH=$PATH PWD=$(pwd)"
+  exit $code
+}
+
+trap 'error_trap' ERR
 
 if [[ "$BUILDDEPS" == "1" ]] ; then
 	if [[ "$IS64" == "1" ]]; then
