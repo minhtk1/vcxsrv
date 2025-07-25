@@ -12,30 +12,49 @@ if [[ "$2" == "" ]] ; then
   echo "Please pass number of parallel builds as second argument"
   exit
 fi
-
+if [[ "$3" == "" ]] ; then
+  echo "Please pass build type as third argument.  D for DEBUG, R for RELEASE, A for ALL"
+  exit
+fi
+if [[ "$3" == "A" ]] ; then
+BUILDRELEASE=1
+BUILDDEBUG=1
+fi
+if [[ "$3" == "R" ]] ; then
+BUILDRELEASE=1
+BUILDDEBUG=0
+fi
+if [[ "$3" == "D" ]] ; then
+BUILDRELEASE=0
+BUILDDEBUG=1
+fi
+BUILDDEPS=1
+if [[ "$4" == "N" ]] ; then
+BUILDDEPS=0
+fi
 function check-error {
-    if [ $? -ne 0 ]; then
-        echo $1
+    errorcode=$?
+    if [[ $errorcode != 0 ]]; then
+        echo $errorcode: $1
         exit
     fi
 }
 
-which nasm > /dev/null 2>&1
+which nasm.exe > /dev/null 2>&1
 check-error 'Please install nasm'
-
 which MSBuild.exe > /dev/null 2>&1
-check-error 'Please install/set environment for visual studio 2017'
+check-error 'Please install/set environment for visual studio 2022'
 which python.exe > /dev/null 2>&1
-check-error 'Make sure that python.exe is in the PATH. (e.g. cp /usr/bin/python2.7.exe /usr/bin/python.exe)'
+check-error 'Please install python'
+which jom.exe > /dev/null 2>&1
+check-error 'Please install jom'
 
 # c:\perl should have a copy of strawberry perl portable edition
 which perl.exe > /dev/null 2>&1
 check-error 'Please install strawberry perl portable edition into c:\perl'
-ORIPATH=$PATH
-export PATH=/cygdrive/c/perl/perl/bin:$PATH
 
 # echo script lines from now one
-#set -v
+set -v
 
 if [[ "$IS64" == "1" ]]; then
 	MSBuild.exe freetype/freetypevc10.sln /t:Build /p:Configuration="Release Multithreaded" /p:Platform=x64
