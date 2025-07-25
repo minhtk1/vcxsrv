@@ -158,7 +158,7 @@ else
 		fi
 
 		cd xorg-server/installer
-		./packageall.bat nox64
+		# ./packageall.bat nox64
 	fi
 fi
 
