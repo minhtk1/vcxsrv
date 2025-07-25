@@ -65,7 +65,6 @@ error_trap() {
   local code=$?
   local line=${BASH_LINENO[0]}
   echo "[ERROR] Exit code $code tại dòng $line (${BASH_SOURCE[1]})"
-  echo "[INFO] IS64=$IS64 BUILDRELEASE=$BUILDRELEASE BUILDDEBUG=$BUILDDEBUG BUILDDEPS=$BUILDDEPS THREADS=$2 TYPE=$3 PATH=$PATH PWD=$(pwd)"
   exit $code
 }
 
